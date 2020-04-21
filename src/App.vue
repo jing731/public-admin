@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-  <h1>内容</h1>
+  <!-- <h1>内容</h1> -->
     <router-view/>
   </div>
 </template>
@@ -12,7 +12,7 @@ export default {
     return {}
   },
   methods: {},
-  create () {
+  created () {
 
   }
 
