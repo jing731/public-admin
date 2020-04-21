@@ -5,7 +5,7 @@
     <router-view />
   </div> -->
 <el-container class="layout-container">
-  <el-aside class="aside" width="100px"><app-aside></app-aside></el-aside>
+  <el-aside class="aside" width="200px"><app-aside class="asdie-menu"></app-aside></el-aside>
   <el-container>
     <el-header class="header">Header</el-header>
     <el-main class="main">Main</el-main>
@@ -39,6 +39,9 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
+    .asdie-menu{
+      height: 100%;
+    }
     .aside{
       background-color: red;
     }
