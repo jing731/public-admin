@@ -5,9 +5,27 @@
     <router-view />
   </div> -->
 <el-container class="layout-container">
-  <el-aside class="aside" width="200px"><app-aside class="asdie-menu"></app-aside></el-aside>
+  <el-aside class="aside" width="200px"><app-aside class="aside-menu"></app-aside></el-aside>
   <el-container>
-    <el-header class="header">Header</el-header>
+    <el-header class="header">
+      <div>
+        <span class="el-icon-s-fold"></span>
+      <span>欢迎你</span>
+      </div>
+      <div>
+      <el-dropdown>
+     <div class="avater-wape">
+       <img class="avater" src="http://toutiao.meiduo.site/FiTOCsr2PmVWXc545yUote4cEr3R" alt="">
+     <span>个人中心</span>
+     <i class="el-icon-arrow-down el-icon--right"></i>
+     </div>
+  <el-dropdown-menu slot="dropdown">
+    <el-dropdown-item>设置</el-dropdown-item>
+    <el-dropdown-item>退出</el-dropdown-item>
+  </el-dropdown-menu>
+</el-dropdown>
+      </div>
+    </el-header>
     <el-main class="main">Main</el-main>
   </el-container>
 </el-container>
@@ -39,17 +57,31 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    .asdie-menu{
-      height: 100%;
-    }
     .aside{
       background-color: red;
+      .aside-menu{
+          height: 100%;
+      }
     }
     .header{
-      background-color: pink;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      // background-color: pink;
+      border-bottom: 1px solid red;
     }
     .main{
       background-color: yellow;
+    }
+    .avater-wape{
+      display: flex;
+      align-items: center;
+      .avater{
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
     }
 }
 </style>
