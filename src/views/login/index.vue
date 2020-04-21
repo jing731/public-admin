@@ -13,12 +13,13 @@
    <el-checkbox v-model="checked">我已阅读并同意用户协议和隐私条款</el-checkbox>
   </el-form-item>
   <el-form-item >
-    <el-button class="login-btn" type="primary" @click="onSubmit">登录</el-button>
+    <el-button class="login-btn" type="primary" :loading="LoginLoading" @click="onLogin">登录</el-button>
   </el-form-item>
 </el-form></div>
   </div>
 </template>
 <script>
+import request from '@/utils/request'
 export default {
   name: 'LoginIndex',
   components: {},
@@ -29,7 +30,8 @@ export default {
         modile: '',
         code: ''
       },
-      checked: false
+      checked: false,
+      LoginLoading: false
     }
   },
   computed: {},
@@ -37,8 +39,31 @@ export default {
   created () {},
   mounted () {},
   methods: {
-    onSubmit () {
-      console.log('11')
+    onLogin () {
+      // 获取用户的数据
+      const user = this.user
+      // 请求中 不能继续发送请求
+      this.LoginLoading = true
+      request({
+        method: 'POST',
+        url: '/mp/v1_0/authorizations',
+        data: user
+      }).then(res => {
+        // 登录成功
+        console.log(res)
+        this.$message({
+          message: '恭喜你，登录成功',
+          type: 'success'
+        })
+        // 请求成功  load关闭
+        this.LoginLoading = false
+      }).catch(err => {
+        // 登录失败
+        console.log('登录失败', err)
+        this.$message.error('登录失败，手机号或验证码错误')
+        // 请求失败  load关闭
+        this.LoginLoading = false
+      })
     }
   }
 }
