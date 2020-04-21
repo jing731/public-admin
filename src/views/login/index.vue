@@ -19,7 +19,7 @@
   </div>
 </template>
 <script>
-import request from '@/utils/request'
+import { login } from '@/api/user'
 export default {
   name: 'LoginIndex',
   components: {},
@@ -29,19 +29,19 @@ export default {
       user: {
         mobile: '',
         code: '',
-        agree: ''
+        agree: false
       },
       // checked: false,
       LoginLoading: false,
       formRules: {
         // 注意：此时只是验证手机号和验证码的必填与格式的正确与否
         mobile: [
-          { required: true, message: '请输入手机号', trigger: 'change' },
-          { pattern: /^1[3|5|6|8|9]\d{9}$/, message: '请输入正确的手机号', trigger: 'change' }
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { pattern: /^1[3|5|6|8|9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' }
         ],
         code: [
-          { required: true, message: '验证码不能为空', trigger: 'change' },
-          { pattern: /^\d{6}$/, message: '请输入正确的验证码格式' }
+          { required: true, message: '验证码不能为空', trigger: 'blur' },
+          { pattern: /^\d{6}$/, message: '请输入正确的验证码格式', trigger: 'blur' }
         ],
         agree: [
           // value 就是结果表达式 true 或 false
@@ -54,7 +54,7 @@ export default {
                 callback(new Error('请遵守用户协议'))
               }
             },
-            trigger: 'change'
+            trigger: 'blur'
           }
         ]
       }
@@ -82,11 +82,8 @@ export default {
       this.LoginLoading = true
       // 注意 需要手机号码，验证码，同意规则之后进行发送请求
       // 否则不发送请求
-      request({
-        method: 'POST',
-        url: '/mp/v1_0/authorizations',
-        data: this.user
-      }).then(res => {
+      // 不要忘记传参
+      login(this.user).then(res => {
         // 登录成功
         console.log(res)
         this.$message({
@@ -94,7 +91,12 @@ export default {
           type: 'success'
         })
         // 请求成功  load关闭
+        // 登录成功，跳转到首页
         this.LoginLoading = false
+        // 注意 利用配路由的方式
+        this.$router.push({
+          name: 'home'
+        })
       }).catch(err => {
         // 登录失败
         console.log('登录失败', err)
