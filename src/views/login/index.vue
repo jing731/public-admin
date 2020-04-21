@@ -2,15 +2,15 @@
   <div class="login-container">
     <div class="login-form-wrap">
       <div class="login-header"></div>
-    <el-form class="login-from" ref="form" :model="user">
-  <el-form-item>
+    <el-form class="login-from" ref="login-form" :model="user" :rules="formRules">
+  <el-form-item prop="mobile">
     <el-input v-model="user.mobile" placeholder="请输入手机号"></el-input>
   </el-form-item>
-   <el-form-item >
+   <el-form-item prop="code">
     <el-input v-model="user.code"  placeholder="请输入密码"></el-input>
   </el-form-item>
-   <el-form-item >
-   <el-checkbox v-model="checked">我已阅读并同意用户协议和隐私条款</el-checkbox>
+   <el-form-item prop="agree">
+   <el-checkbox v-model="user.agree">我已阅读并同意用户协议和隐私条款</el-checkbox>
   </el-form-item>
   <el-form-item >
     <el-button class="login-btn" type="primary" :loading="LoginLoading" @click="onLogin">登录</el-button>
@@ -27,11 +27,37 @@ export default {
   data () {
     return {
       user: {
-        modile: '',
-        code: ''
+        mobile: '',
+        code: '',
+        agree: ''
       },
-      checked: false,
-      LoginLoading: false
+      // checked: false,
+      LoginLoading: false,
+      formRules: {
+        // 注意：此时只是验证手机号和验证码的必填与格式的正确与否
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: 'change' },
+          { pattern: /^1[3|5|6|8|9]\d{9}$/, message: '请输入正确的手机号', trigger: 'change' }
+        ],
+        code: [
+          { required: true, message: '验证码不能为空', trigger: 'change' },
+          { pattern: /^\d{6}$/, message: '请输入正确的验证码格式' }
+        ],
+        agree: [
+          // value 就是结果表达式 true 或 false
+          {
+            validator: (rule, value, callback) => {
+            // true
+              if (value) {
+                callback()
+              } else {
+                callback(new Error('请遵守用户协议'))
+              }
+            },
+            trigger: 'change'
+          }
+        ]
+      }
     }
   },
   computed: {},
@@ -41,13 +67,25 @@ export default {
   methods: {
     onLogin () {
       // 获取用户的数据
-      const user = this.user
+      // const user = this.user
       // 请求中 不能继续发送请求
+      this.$refs['login-form'].validate(valid => {
+        if (!valid) {
+          return
+        }
+        // 校验成功，登录
+        // 调用login方法
+        this.login()
+      })
+    },
+    login () {
       this.LoginLoading = true
+      // 注意 需要手机号码，验证码，同意规则之后进行发送请求
+      // 否则不发送请求
       request({
         method: 'POST',
         url: '/mp/v1_0/authorizations',
-        data: user
+        data: this.user
       }).then(res => {
         // 登录成功
         console.log(res)
