@@ -90,6 +90,8 @@ export default {
           message: '恭喜你，登录成功',
           type: 'success'
         })
+        // 如果登陆成功  则设置token到本地存储  注意 数据应该存储为json格式
+        window.localStorage.setItem('user', JSON.stringify(res.data.data))
         // 请求成功  load关闭
         // 登录成功，跳转到首页
         this.LoginLoading = false
