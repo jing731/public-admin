@@ -27,5 +27,20 @@ const routes = [
 const router = new VueRouter({
   routes
 })
-
+// 使用路由导航进行用户的登陆与否
+// 里面的回调函数 有三个参数 to from next
+router.beforeEach((to, from, next) => {
+  const user = JSON.parse(window.localStorage.getItem('user'))
+  // 非登陆的页面
+  if (to.path !== '/login') {
+    if (user) {
+      next()
+    } else {
+      next('/login')
+    }
+    // 进入登陆的页面
+  } else {
+    next()
+  }
+})
 export default router

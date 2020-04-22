@@ -29,7 +29,7 @@
      </div>
   <el-dropdown-menu slot="dropdown">
     <el-dropdown-item>设置</el-dropdown-item>
-    <el-dropdown-item>退出</el-dropdown-item>
+    <el-dropdown-item @click.native="LogOut">退出</el-dropdown-item>
   </el-dropdown-menu>
 </el-dropdown>
       </div>
@@ -66,6 +66,21 @@ export default {
         this.user = res.data.data
       }).then(err => {
         console.log(err)
+      })
+    },
+    LogOut () {
+      this.$confirm('此操作将永久退出, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        window.localStorage.removeItem('user')
+        this.$router.push('/login')
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
       })
     }
   }
