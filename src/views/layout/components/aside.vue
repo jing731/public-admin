@@ -5,6 +5,7 @@
       text-color="#fff"
       active-text-color="#ffd04b"
       router
+      :collapse = "isCollapse"
       >
       <el-menu-item index="/">
         <i class="el-icon-s-home"></i>
@@ -40,9 +41,14 @@
 export default {
   name: 'AppAside',
   components: {},
-  props: {},
+  props: ['is-collapse'],
   data () {
-    return {}
+    return {
+      // 想通过点击图标进行伸缩 图标在父组件
+      // 伸缩在子组件 所以需要父子组件相互通信
+      // isCollapse: false
+      // 修改成true后 会收起  默认是展开的状态
+    }
   },
   computed: {},
   watch: {},

@@ -5,11 +5,19 @@
     <router-view />
   </div> -->
 <el-container class="layout-container">
-  <el-aside class="aside" width="200px"><app-aside class="aside-menu"></app-aside></el-aside>
+  <el-aside class="aside" width="auto">
+    <app-aside :is-collapse = "isCollapse" class="aside-menu"></app-aside>
+    </el-aside>
   <el-container>
     <el-header class="header">
       <div>
-        <span class="el-icon-s-fold"></span>
+        <span
+        @click = 'isCollapse = !isCollapse'
+        :class= "{
+          'el-icon-s-fold':isCollapse,
+          'el-icon-s-unfold':!isCollapse
+          }"
+        ></span>
       <span>欢迎你</span>
       </div>
       <div>
@@ -41,7 +49,8 @@ export default {
   props: {},
   data () {
     return {
-      user: {}
+      user: {},
+      isCollapse: true // 默认不展开
     }
   },
   computed: {},
