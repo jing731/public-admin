@@ -15,8 +15,8 @@
       <div>
       <el-dropdown>
      <div class="avater-wape">
-       <img class="avater" src="http://toutiao.meiduo.site/FiTOCsr2PmVWXc545yUote4cEr3R" alt="">
-     <span>个人中心</span>
+       <img class="avater" :src="user.photo" alt="">
+     <span>{{ user.name }}</span>
      <i class="el-icon-arrow-down el-icon--right"></i>
      </div>
   <el-dropdown-menu slot="dropdown">
@@ -32,6 +32,7 @@
 </template>
 <script>
 import AppAside from './components/aside'
+import { getUserProfile } from '@/api/user'
 export default {
   name: 'LayoutIndex',
   components: {
@@ -39,14 +40,25 @@ export default {
   },
   props: {},
   data () {
-    return {}
+    return {
+      user: {}
+    }
   },
   computed: {},
   watch: {},
-  created () {},
+  created () {
+    this.LocaluserPrifile()
+  },
   mounted () {},
   methods: {
-
+    LocaluserPrifile () {
+      getUserProfile().then(res => {
+        console.log(res) // 获取请求结果
+        // this.user = res.data.data
+      }).then(err => {
+        console.log(err)
+      })
+    }
   }
 }
 </script>
