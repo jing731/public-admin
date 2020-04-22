@@ -8,23 +8,7 @@
   <el-aside class="aside" width="200px"><app-aside class="aside-menu"></app-aside></el-aside>
   <el-container>
     <el-header class="header">
-      <div>
-        <span class="el-icon-s-fold"></span>
-      <span>欢迎你</span>
-      </div>
-      <div>
-      <el-dropdown>
-     <div class="avater-wape">
-       <img class="avater" :src="user.photo" alt="">
-     <span>{{ user.name }}</span>
-     <i class="el-icon-arrow-down el-icon--right"></i>
-     </div>
-  <el-dropdown-menu slot="dropdown">
-    <el-dropdown-item>设置</el-dropdown-item>
-    <el-dropdown-item>退出</el-dropdown-item>
-  </el-dropdown-menu>
-</el-dropdown>
-      </div>
+    <app-header />
     </el-header>
     <el-main class="main">Main</el-main>
   </el-container>
@@ -32,34 +16,22 @@
 </template>
 <script>
 import AppAside from './components/aside'
-import { getUserProfile } from '@/api/user'
+import AppHeader from './components/header'
 export default {
   name: 'LayoutIndex',
   components: {
-    AppAside
+    AppAside,
+    AppHeader
   },
   props: {},
   data () {
-    return {
-      user: {}
-    }
+    return {}
   },
   computed: {},
   watch: {},
-  created () {
-    this.LocaluserPrifile()
-  },
+  created () {},
   mounted () {},
-  methods: {
-    LocaluserPrifile () {
-      getUserProfile().then(res => {
-        console.log(res) // 获取请求结果
-        // this.user = res.data.data
-      }).then(err => {
-        console.log(err)
-      })
-    }
-  }
+  methods: {}
 }
 </script>
 <style scoped lang="less">
@@ -75,25 +47,8 @@ export default {
           height: 100%;
       }
     }
-    .header{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      // background-color: pink;
-      border-bottom: 1px solid red;
-    }
     .main{
       background-color: yellow;
-    }
-    .avater-wape{
-      display: flex;
-      align-items: center;
-      .avater{
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-        margin-right: 10px;
-      }
     }
 }
 </style>
