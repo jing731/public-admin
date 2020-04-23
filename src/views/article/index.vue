@@ -64,37 +64,53 @@
     {{'列表内容 ' + o }}
   </div> -->
    <el-table
-      :data="tableData"
+      :data="articles"
       style="width: 100%">
       <el-table-column
         prop="date"
-        label="封面"
-        width="180">
+        label="封面">
       </el-table-column>
       <el-table-column
-        prop="name"
-        label="标题"
-        width="180">
+        prop="title"
+        label="标题">
       </el-table-column>
        <el-table-column
-        prop="name"
-        label="状态"
-        width="180">
+        prop="status"
+        label="状态">
+        <template slot-scope="scope">
+        <el-tag v-if="scope.row.status === 0">草稿</el-tag>
+        <el-tag v-else-if="scope.row.status === 1">待审核</el-tag>
+        <el-tag v-else-if="scope.row.status === 2">审核通过</el-tag>
+        <el-tag v-else-if="scope.row.status === 3">审核时效</el-tag>
+        <el-tag v-else-if="scope.row.status === 4">已删除</el-tag>
+        </template>
       </el-table-column>
        <el-table-column
-        prop="name"
-        label="发布"
-        width="180">
+        prop="pubdate"
+        label="发布时间">
       </el-table-column>
       <el-table-column
-        prop="address"
         label="操作">
+         <template>
+        <el-button
+          size="mini"
+          circle
+          icon="el-icon-edit"
+          type='primary'
+          ></el-button>
+        <el-button
+          size="mini"
+          type="danger"
+          circle
+          icon="el-icon-delete"></el-button>
+      </template>
       </el-table-column>
     </el-table>
 </el-card>
   </div>
 </template>
 <script>
+import { getArticles } from '@/api/article'
 export default {
   name: 'ArticleIndex',
   components: {},
@@ -106,29 +122,14 @@ export default {
         resource: '',
         date1: ''
       },
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      tableData: [],
+      articles: [] // 文章数据列表
     }
   },
   computed: {},
   watch: {},
   created () {
-
+    this.loadArticles()
   },
   mounted () {
 
@@ -136,6 +137,11 @@ export default {
   methods: {
     onSubmit () {
       console.log('submit!')
+    },
+    loadArticles () {
+      getArticles().then(res => {
+        this.articles = res.data.data.results
+      })
     }
   }
 }
