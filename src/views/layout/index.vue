@@ -1,8 +1,9 @@
 <template>
   <!-- <div class="layout-container">
     <div>顶部导航栏</div>
-    <div>侧边导航栏</div>
     <router-view />
+    <div>侧边导航栏</div>
+    <router-view></router-view>
   </div> -->
 <el-container class="layout-container">
   <el-aside class="aside" width="auto">
@@ -34,7 +35,9 @@
 </el-dropdown>
       </div>
     </el-header>
-    <el-main class="main">Main</el-main>
+    <el-main class="main">
+      <router-view></router-view>
+      </el-main>
   </el-container>
 </el-container>
 </template>

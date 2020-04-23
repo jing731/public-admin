@@ -1,10 +1,9 @@
 <template>
-  <div class="home-container">首页555</div>
+  <div class="artice-container">内容管理</div>
 </template>
 <script>
 export default {
-// 组件名字
-  name: 'HomeIndex',
+  name: 'ArticleIndex',
   components: {},
   props: {},
   data () {
@@ -12,10 +11,15 @@ export default {
   },
   computed: {},
   watch: {},
-  created () {},
-  mounted () {},
+  created () {
+
+  },
+  mounted () {
+
+  },
   methods: {}
 }
 </script>
 <style scoped lang="less">
+
 </style>
