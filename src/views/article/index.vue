@@ -49,11 +49,6 @@
     <el-button type="primary" @click="onSubmit">立即创建</el-button>
   </el-form-item>
   <!-- 表单 -->
-    <!-- 分页 -->
-<el-pagination
-    layout="prev, pager, next"
-    :total="1000">
-  </el-pagination>
 </el-form>
 </el-card>
 <el-card class="box">
@@ -123,6 +118,15 @@
       </template>
       </el-table-column>
     </el-table>
+       <!-- 分页 -->
+       <!-- current-change 当前页 -->
+<el-pagination
+    layout="prev, pager, next"
+    :total="1000"
+    background
+    @current-change = 'onCurrentChange'
+    >
+  </el-pagination>
 </el-card>
   </div>
 </template>
@@ -162,10 +166,19 @@ export default {
     onSubmit () {
       console.log('submit!')
     },
-    loadArticles () {
-      getArticles().then(res => {
+    loadArticles (page = 1) {
+      getArticles({
+        // 传到后台 改变的参数
+        page,
+        per_page: 10
+      }).then(res => {
         this.articles = res.data.data.results
       })
+    },
+    // 事件触发的页数  当前页
+    onCurrentChange (page) {
+      // console.log(page)
+      this.loadArticles(page)
     }
   }
 }
