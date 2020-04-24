@@ -26,13 +26,17 @@
     </el-radio-group>
   </el-form-item>
   <el-form-item label="频道">
-    <el-select v-model="form.region" placeholder="请选择">
+    <el-select v-model="channelId" placeholder="请选择">
       <!-- <el-option label="开发者咨询" value="shanghai"></el-option>
       <el-option label="iOS" value="beijing"></el-option>
       <el-option label="c++" value="beijing"></el-option>
       <el-option label="android" value="beijing"></el-option>
       <el-option label="css" value="beijing"></el-option>
       <el-option label="数据库" value="beijing"></el-option> -->
+      <el-option
+        label='全部'
+        :value="null"
+      ></el-option>
       <el-option
         :label='channel.name'
         :value="channel.id"
@@ -161,7 +165,8 @@ export default {
       totalCount: 0,
       pageSize: 20,
       status: null,
-      channels: []
+      channels: [],
+      channelId: null
     }
   },
   computed: {},
@@ -182,7 +187,8 @@ export default {
         // 传到后台 改变的参数
         page,
         per_page: this.pageSize,
-        status: this.status
+        status: this.status,
+        channel_id: this.channelId
       }).then(res => {
         // this.articles = res.data.data.results
         const { results, total_count: totalCount } = res.data.data
