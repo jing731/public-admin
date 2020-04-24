@@ -27,13 +27,17 @@
   </el-form-item>
   <el-form-item label="频道">
     <el-select v-model="form.region" placeholder="请选择">
-      <el-option label="开发者咨询" value="shanghai"></el-option>
+      <!-- <el-option label="开发者咨询" value="shanghai"></el-option>
       <el-option label="iOS" value="beijing"></el-option>
       <el-option label="c++" value="beijing"></el-option>
       <el-option label="android" value="beijing"></el-option>
       <el-option label="css" value="beijing"></el-option>
-      <el-option label="数据库" value="beijing"></el-option>
-      <el-option label="区块链" value="beijing"></el-option>
+      <el-option label="数据库" value="beijing"></el-option> -->
+      <el-option
+        :label='channel.name'
+        :value="channel.id"
+        v-for="(channel, index) in channels" :key="index"
+      ></el-option>
     </el-select>
   </el-form-item>
       <!-- 日期 -->
@@ -54,7 +58,7 @@
 </el-card>
 <el-card class="box">
   <div slot="header" class="clearfix">
-根据筛选条件共查询到 46147 条结果：
+根据筛选条件共查询到 {{ totalCount }} 条结果：
   </div>
   <!-- <div v-for="o in 4" :key="o" class="text item">
     {{'列表内容 ' + o }}
@@ -133,7 +137,7 @@
   </div>
 </template>
 <script>
-import { getArticles } from '@/api/article'
+import { getArticles, getArticlesChannels } from '@/api/article'
 export default {
   name: 'ArticleIndex',
   components: {},
@@ -156,13 +160,15 @@ export default {
       ],
       totalCount: 0,
       pageSize: 20,
-      status: null
+      status: null,
+      channels: []
     }
   },
   computed: {},
   watch: {},
   created () {
-    this.loadArticles()
+    this.loadArticles(1)
+    this.loadChannels()
   },
   mounted () {
 
@@ -188,7 +194,19 @@ export default {
     onCurrentChange (page) {
       // console.log(page)
       this.loadArticles(page)
+    },
+    loadChannels () {
+      getArticlesChannels().then(res => {
+        console.log(res)
+        this.channels = res.data.data.channels
+      })
     }
+    // loadChannels () {
+    //   getArticleChannels().then(res => {
+    //     console.log(res)
+    //     // this.channels = res.data.data.channels
+    //   })
+    // }
   }
 }
 </script>
