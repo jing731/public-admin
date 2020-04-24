@@ -69,6 +69,22 @@
       <el-table-column
         prop="date"
         label="封面">
+        <template slot-scope="scope">
+          <!-- 注意：需要绑定src -->
+          <img
+           v-if="scope.row.cover.images[0]"
+          class="article-cover"
+          :src="scope.row.cover.images[0]" alt="">
+          <!-- 注意：为了更好的交互，一般没有上传图片
+          的情况下，会默认给一个图片
+          逻辑为：如果没有图片则使用默认的图片，但是不能用 ||
+          因为 || 是在运行期间动态改变处理的
+          而本地图片必须在打包的时候就存在
+          所以应该添加两个img 分别判断-->
+          <!-- 注意：不需要绑定src 就是本地的图片 -->
+          <img
+          v-else class="article-cover" src="./no-cover.gif" alt="">
+        </template>
       </el-table-column>
       <el-table-column
         prop="title"
@@ -157,5 +173,9 @@ export default {
 <style scoped lang="less">
 .box{
   margin-top: 15px;
+}
+.article-cover{
+  width: 80px;
+  height: 80px;
 }
 </style>
