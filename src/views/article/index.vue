@@ -15,13 +15,14 @@
   </div> -->
   <el-form ref="form" :model="form" label-width="40px" size="mini">
     <el-form-item label="状态">
-    <el-radio-group v-model="form.resource">
-      <el-radio label="全部"></el-radio>
-      <el-radio label="草稿"></el-radio>
-      <el-radio label="待审核"></el-radio>
-      <el-radio label="审核通过"></el-radio>
-      <el-radio label="审核失败"></el-radio>
-      <el-radio label="已删除"></el-radio>
+    <el-radio-group v-model="status">
+      <!-- el-radio 默认把 label 作为文本和选中之后的 value 值 -->
+      <el-radio :label="null">全部</el-radio>
+      <el-radio :label="0">草稿</el-radio>
+      <el-radio :label="1">待审核</el-radio>
+      <el-radio :label="2">审核通过</el-radio>
+      <el-radio :label="3">审核失败</el-radio>
+      <el-radio :label="4">已删除</el-radio>
     </el-radio-group>
   </el-form-item>
   <el-form-item label="频道">
@@ -46,7 +47,7 @@
     </el-date-picker>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" @click="onSubmit">立即创建</el-button>
+    <el-button type="primary" @click="loadArticles(1)">立即创建</el-button>
   </el-form-item>
   <!-- 表单 -->
 </el-form>
@@ -154,7 +155,8 @@ export default {
         { status: 4, text: '已删除', type: 'danger' }
       ],
       totalCount: 0,
-      pageSize: 20
+      pageSize: 20,
+      status: null
     }
   },
   computed: {},
@@ -173,7 +175,8 @@ export default {
       getArticles({
         // 传到后台 改变的参数
         page,
-        per_page: this.pageSize
+        per_page: this.pageSize,
+        status: this.status
       }).then(res => {
         // this.articles = res.data.data.results
         const { results, total_count: totalCount } = res.data.data
