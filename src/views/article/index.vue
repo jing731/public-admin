@@ -122,9 +122,10 @@
        <!-- current-change 当前页 -->
 <el-pagination
     layout="prev, pager, next"
-    :total="1000"
+    :total="totalCount"
     background
     @current-change = 'onCurrentChange'
+    :page-size = 'pageSize'
     >
   </el-pagination>
 </el-card>
@@ -151,7 +152,9 @@ export default {
         { status: 2, text: '审核通过', type: 'success' },
         { status: 3, text: '审核失败', type: 'warning' },
         { status: 4, text: '已删除', type: 'danger' }
-      ]
+      ],
+      totalCount: 0,
+      pageSize: 20
     }
   },
   computed: {},
@@ -170,9 +173,12 @@ export default {
       getArticles({
         // 传到后台 改变的参数
         page,
-        per_page: 10
+        per_page: this.pageSize
       }).then(res => {
-        this.articles = res.data.data.results
+        // this.articles = res.data.data.results
+        const { results, total_count: totalCount } = res.data.data
+        this.articles = results
+        this.totalCount = totalCount
       })
     },
     // 事件触发的页数  当前页
